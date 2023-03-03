@@ -24,8 +24,10 @@ jobs:
     - name: Build image
       run: |
         docker build -t yishayjs/docker-graphql:0.0.1 .
+        docker build -t yishayjs/docker-graphql .
     - name: Push image
       run: |
-        docker push yishayjs/docker-graphql:0.0.1 .
+        docker push yishayjs/docker-graphql:0.0.1
+        docker push yishayjs/docker-graphql
 #    - name: Build the Docker image
 #      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)

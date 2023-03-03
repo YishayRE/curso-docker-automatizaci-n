@@ -18,6 +18,7 @@ jobs:
       with: 
         major_pattern: "major:"
         minor_pattern: "feat:"
+        format: "${major}.${minor}.${patch}-prerelease${increment}"
       id: version
     - name: Docker login
       env:
@@ -31,11 +32,13 @@ jobs:
       env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker build -t yishayjs/docker-graphql:$NEW_VERSION .
-        docker build -t yishayjs/docker-graphql .
+        docker build -t $DOCKER_USER/docker-graphql:$NEW_VERSION .
+        docker build -t $DOCKER_USER/docker-graphql .
     - name: Push image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker push yishayjs/docker-graphql:$NEW_VERSION
-        docker push yishayjs/docker-graphql
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        docker push $DOCKER_USER/docker-graphql:$NEW_VERSION
+        docker push $DOCKER_USER/docker-graphql
+#    - name: Build the Docker image
+#      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
